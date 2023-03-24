@@ -73,3 +73,58 @@ class LightThemeColors implements AppColors {
   @override
   Color get buttonBackground => const Color(0xFF005FFF);
 }
+
+class DarkThemeColors implements AppColors {
+  @override
+  Color get black => const Color(0xFFFFFFFF);
+
+  @override
+  Color get grey => const Color(0xFF7A7A7A);
+
+  @override
+  Color get greyGainsboro => const Color(0xFF2D2F2F);
+
+  @override
+  Color get greyWhisper => const Color(0xFF1C1E22);
+
+  @override
+  Color get whiteSmoke => const Color(0xFF13151B);
+
+  @override
+  Color get whiteSnow => const Color(0xFF070A0D);
+
+  @override
+  Color get white => const Color(0xFF101418);
+
+  @override
+  Color get blueAlice => const Color(0xFF00193D);
+
+  @override
+  Color get accentBlue => const Color(0xFF005FFF);
+
+  @override
+  Color get accentRed => const Color(0xFFFF3742);
+
+  @override
+  Color get accentGreen => const Color(0xFF20E070);
+
+  @override
+  Gradient get bgGradient => const LinearGradient(
+        colors: [
+          Color(0xFF0A0C0F),
+          Color(0xFF070A0D),
+        ],
+      );
+
+  @override
+  Color get overlay => const Color(0xFFCCCCCC);
+
+  @override
+  Color get overlayDark => const Color(0xFF666666);
+
+  @override
+  Color get buttonText => const Color(0xFF005FFF);
+
+  @override
+  Color get buttonBackground => const Color(0xFFFFFFFF);
+}
