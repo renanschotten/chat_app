@@ -106,4 +106,60 @@ class ChatApp {
       IconData(0xe82f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData type_type5 =
       IconData(0xe830, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+
+  static IconData parse(String icon) {
+    const map = {
+      'arrow_right': arrow_right,
+      'attach': attach,
+      'checkmark': checkmark,
+      'check_circle': check_circle,
+      'close': close,
+      'copy': copy,
+      'curve_line_left_up': curve_line_left_up,
+      'delete_cirlce': delete_cirlce,
+      'delete': delete,
+      'download': download,
+      'error': error,
+      'flag': flag,
+      'gallery': gallery,
+      'group': group,
+      'left_arrow_circle': left_arrow_circle,
+      'left_chevron': left_chevron,
+      'lightning_command_runner': lightning_command_runner,
+      'lol': lol,
+      'love': love,
+      'mention': mention,
+      'menu_horizontal': menu_horizontal,
+      'menu_vertical': menu_vertical,
+      'message': message,
+      'mute': mute,
+      'pencil_new': pencil_new,
+      'right_chevron': right_chevron,
+      'search': search,
+      'setting': setting,
+      'share': share,
+      'share_1': share_1,
+      'thread_reply': thread_reply,
+      'thumbs_down': thumbs_down,
+      'thumbs_up': thumbs_up,
+      'top_arrow_circle': top_arrow_circle,
+      'unmute': unmute,
+      'user_add': user_add,
+      'user_ban': user_ban,
+      'user_remove': user_remove,
+      'user': user,
+      'wut': wut,
+      'check_all': check_all,
+      'check': check,
+      'eye': eye,
+      'reply': reply,
+      'type_no_camera_permissions': type_no_camera_permissions,
+      'type_no_channel': type_no_channel,
+      'type_no_search_results': type_no_search_results,
+      'type_type4': type_type4,
+      'type_type5': type_type5,
+    };
+
+    return map[icon] ?? error;
+  }
 }
