@@ -11,66 +11,66 @@ class AppTextStyles {
   static const FontWeight regular = FontWeight.w400;
   static const String roboto = 'Roboto';
 
-  TextStyle get captionBold => TextStyle(
+  TextStyle captionBold({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: bold,
         fontSize: 10,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 
-  TextStyle get footnote => TextStyle(
+  TextStyle footnote({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: regular,
         fontSize: 12,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 
-  TextStyle get footnoteBold => TextStyle(
+  TextStyle footnoteBold({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: medium,
         fontSize: 12,
         height: 1.0,
-        color: colors.black,
+        color: color ?? colors.black,
       );
-  TextStyle get body => TextStyle(
+  TextStyle body({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: medium,
         fontSize: 14,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 
-  TextStyle get bodyBold => TextStyle(
+  TextStyle bodyBold({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: bold,
         fontSize: 14,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 
-  TextStyle get headline => TextStyle(
+  TextStyle headline({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: medium,
         fontSize: 16,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 
-  TextStyle get headlineBold => TextStyle(
+  TextStyle headlineBold({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: bold,
         fontSize: 16,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 
-  TextStyle get title => TextStyle(
+  TextStyle title({Color? color}) => TextStyle(
         fontFamily: roboto,
         fontWeight: bold,
         fontSize: 22,
         height: 1.17,
-        color: colors.black,
+        color: color ?? colors.black,
       );
 }
