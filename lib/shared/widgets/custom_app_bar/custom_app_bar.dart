@@ -8,17 +8,22 @@ import 'package:chat_app/shared/shared.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     Key? key,
-    required this.title,
+    this.title,
     this.leading,
     this.trailing,
+    this.onTapLeading,
+    this.onTapTrailing,
   }) : super(key: key);
-  final String title;
+  final String? title;
   final Widget? leading;
   final Widget? trailing;
+  final VoidCallback? onTapLeading;
+  final VoidCallback? onTapTrailing;
 
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeProvider>(context).theme;
+
     return SafeArea(
       child: Container(
         width: preferredSize.width,
@@ -33,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               SizedBox(
                 width: 40,
-                child: leading,
+                child: GestureDetector(onTap: onTapLeading, child: leading),
               ),
               Text(
                 'Advanced Options',
@@ -41,7 +46,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               SizedBox(
                 width: 40,
-                child: trailing,
+                child: GestureDetector(onTap: onTapTrailing, child: trailing),
               ),
             ],
           ),

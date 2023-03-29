@@ -1,45 +1,64 @@
+import 'package:chat_app/chat_app_icons.dart';
+import 'package:chat_app/modules/select_user/view/select_user_advanced.dart';
+import 'package:chat_app/shared/colors/app_colors.dart';
+import 'package:chat_app/shared/typography/app_text_syles.dart';
+import 'package:chat_app/shared/widgets/buttons/pill_button.dart';
+import 'package:chat_app/shared/widgets/buttons/round_button.dart';
+import 'package:chat_app/shared/widgets/context_menu/context_menu.dart';
+import 'package:chat_app/shared/widgets/custom_app_bar/custom_app_bar.dart';
+import 'package:chat_app/shared/widgets/input/input_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:chat_app/shared/widgets/bubble/message_bubble.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
+}
+
+class DarkThemeProvider with ChangeNotifier {
+  bool darkTheme = false;
+
+  toggleDarkTheme(bool value) {
+    darkTheme = value;
+    notifyListeners();
+  }
+}
+
+class ThemeProvider with ChangeNotifier {
+  AppColors theme = LightThemeColors();
+
+  toggleTheme() {
+    if (theme is LightThemeColors) {
+      theme = DarkThemeColors();
+    } else {
+      theme = LightThemeColors();
+    }
+    notifyListeners();
+  }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+  MyApp({super.key});
+  ThemeProvider themeProvider = ThemeProvider();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (_) => themeProvider,
+      child: Consumer<ThemeProvider>(
+        builder: (context, value, child) => MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const SelectUserAdvanced(/* title: 'Flutter Demo Home Page' */),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -48,68 +67,220 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  bool value = false;
+  late var tp;
+  late var ts;
+  var lorem =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ex dolor, viverra a bibendum id, ultricies sed augue. Nunc rutrum neque vel elit convallis faucibus. Mauris efficitur metus vel erat blandit venenatis. Donec et pellentesque augue. Etiam venenatis lorem blandit magna pulvinar, nec ullamcorper felis euismod. Ut vitae diam dui. Nam ullamcorper dignissim metus, eget lacinia nisl luctus sit amet. Cras lacinia suscipit nibh, at laoreet dolor aliquam id. Cras laoreet vitae ligula non varius. Praesent non scelerisque turpis. Sed porta ex ut iaculis bibendum. Aenean lobortis vulputate nisi at elementum. Aenean ullamcorper metus non magna congue mollis. Curabitur eleifend interdum libero at vulputate.';
+  @override
+  void didChangeDependencies() {
+    tp = Provider.of<ThemeProvider>(context);
+    ts = AppTextStyles(colors: Provider.of<ThemeProvider>(context).theme);
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      appBar: CustomAppBar(
+        leading: Icon(
+          ChatApp.left_chevron,
+          color: tp.theme.black,
+        ),
+        title: 'AdvancedOption',
+        trailing: Checkbox(
+          value: value,
+          onChanged: (_) {
+            tp.toggleTheme();
+            value = !value;
+          },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      backgroundColor: tp.theme.whiteSnow,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: <Widget>[
+              const SizedBox(height: 24),
+              InputText(
+                labelText: 'User ID',
+                textController: TextEditingController(),
+                focus: FocusNode(),
+              ),
+              const SizedBox(height: 24),
+              const MessageBubble(
+                text: 'That’s him!',
+                isReceivedMessege: true,
+                isSingleOrLastMessage: false,
+              ),
+              const SizedBox(height: 24),
+              const MessageBubble(
+                text: 'That’s him!',
+                isReceivedMessege: false,
+                isSingleOrLastMessage: false,
+              ),
+              const SizedBox(height: 24),
+              MessageBubble(
+                text: lorem,
+                isReceivedMessege: true,
+                isSingleOrLastMessage: true,
+              ),
+              const SizedBox(height: 24),
+              MessageBubble(
+                text: lorem,
+                isReceivedMessege: false,
+                isSingleOrLastMessage: true,
+              ),
+              const SizedBox(height: 24),
+              const Center(child: ContextMenu()),
+              const SizedBox(height: 24),
+              RoundButton(
+                icon: ChatApp.pencil_new,
+                iconColor: tp.theme.grey,
+              ),
+              const SizedBox(height: 24),
+              const RoundButton(icon: ChatApp.arrow_right),
+              const SizedBox(height: 24),
+              const PillButton(text: 'Login'),
+              const SizedBox(height: 24),
+              Icon(ChatApp.arrow_right, color: tp.theme.black),
+              Icon(ChatApp.attach, color: tp.theme.black),
+              Icon(ChatApp.check, color: tp.theme.black),
+              Icon(ChatApp.check_all, color: tp.theme.black),
+              Icon(ChatApp.check_circle, color: tp.theme.black),
+              Icon(ChatApp.checkmark, color: tp.theme.black),
+              Icon(ChatApp.close, color: tp.theme.black),
+              Icon(ChatApp.copy, color: tp.theme.black),
+              Icon(ChatApp.curve_line_left_up, color: tp.theme.black),
+              Icon(ChatApp.delete, color: tp.theme.black),
+              Icon(ChatApp.delete_cirlce, color: tp.theme.black),
+              Icon(ChatApp.download, color: tp.theme.black),
+              Icon(ChatApp.error, color: tp.theme.black),
+              Icon(ChatApp.eye, color: tp.theme.black),
+              Icon(ChatApp.flag, color: tp.theme.black),
+              Icon(ChatApp.gallery, color: tp.theme.black),
+              Icon(ChatApp.group, color: tp.theme.black),
+              Icon(ChatApp.left_arrow_circle, color: tp.theme.black),
+              Icon(ChatApp.left_chevron, color: tp.theme.black),
+              Icon(ChatApp.lightning_command_runner, color: tp.theme.black),
+              Icon(ChatApp.lol, color: tp.theme.black),
+              Icon(ChatApp.love, color: tp.theme.black),
+              Icon(ChatApp.mention, color: tp.theme.black),
+              Icon(ChatApp.menu_horizontal, color: tp.theme.black),
+              Icon(ChatApp.menu_vertical, color: tp.theme.black),
+              Icon(ChatApp.message, color: tp.theme.black),
+              Icon(ChatApp.mute, color: tp.theme.black),
+              Icon(ChatApp.pencil_new, color: tp.theme.black),
+              Icon(ChatApp.reply, color: tp.theme.black),
+              Icon(ChatApp.right_chevron, color: tp.theme.black),
+              Icon(ChatApp.search, color: tp.theme.black),
+              Icon(ChatApp.setting, color: tp.theme.black),
+              Icon(ChatApp.share, color: tp.theme.black),
+              Icon(ChatApp.share_1, color: tp.theme.black),
+              Icon(ChatApp.thread_reply, color: tp.theme.black),
+              Icon(ChatApp.thumbs_down, color: tp.theme.black),
+              Icon(ChatApp.thumbs_up, color: tp.theme.black),
+              Icon(ChatApp.top_arrow_circle, color: tp.theme.black),
+              Icon(ChatApp.type_no_camera_permissions, color: tp.theme.black),
+              Icon(ChatApp.type_no_channel, color: tp.theme.black),
+              Icon(ChatApp.type_no_search_results, color: tp.theme.black),
+              Icon(ChatApp.type_type4, color: tp.theme.black),
+              Icon(ChatApp.type_type5, color: tp.theme.black),
+              Icon(ChatApp.unmute, color: tp.theme.black),
+              Icon(ChatApp.user, color: tp.theme.black),
+              Icon(ChatApp.user_add, color: tp.theme.black),
+              Icon(ChatApp.user_ban, color: tp.theme.black),
+              Icon(ChatApp.user_remove, color: tp.theme.black),
+              Icon(ChatApp.wut, color: tp.theme.black),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.captionBold(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.footnote(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.footnoteBold(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.body(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.bodyBold(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.headline(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.headlineBold(),
+              ),
+              Text(
+                'Placeholder text to test the text',
+                style: ts.title(),
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.black,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.grey,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.greyGainsboro,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.greyWhisper,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.whiteSmoke,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.whiteSnow,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.white,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.blueAlice,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.accentBlue,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.accentGreen,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.accentRed,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.buttonText,
+              ),
+              Container(
+                height: 50,
+                color: tp.theme.buttonBackground,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
